@@ -25,4 +25,3 @@ fi
 # Exit successfully regardless of whether tv command ran
 # Post-commit hooks should not fail the commit
 exit 0
-
