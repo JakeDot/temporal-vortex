@@ -20,6 +20,8 @@ else
 fi
 
 # Show diff for the commit that was just created
-$TV_CMD diff HEAD 2>/dev/null
+# Using eval with proper quoting to handle spaces in paths
+eval "$TV_CMD" diff HEAD 2>/dev/null
 
 exit 0
+

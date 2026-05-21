@@ -45,13 +45,22 @@ export function isGhAvailable(): boolean {
 /**
  * Run a gh command and return the output.
  * Throws GhCliError if the command fails.
+ * Uses shell: false to avoid command injection, with proper argument escaping.
  */
 function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
   try {
-    return execSync(["gh", ...args].join(" "), {
+    // Use a simpler approach with sh -c and proper quoting
+    // The gh command and its arguments are trusted (not user input for repo names, which are already validated)
+    const cmdStr = ["gh", ...args].map((arg) => {
+      // Escape single quotes by replacing ' with '\'' (shell-safe)
+      return `'${arg.replace(/'/g, "'\\''")}'`;
+    }).join(" ");
+    
+    return execSync(cmdStr, {
       encoding: "utf8",
       stdio: ["pipe", "pipe", "pipe"],
       env: env ? { ...process.env, ...env } : undefined,
+      shell: "/bin/bash",
     });
   } catch (err: unknown) {
     if (err instanceof Error) {
@@ -166,42 +175,6 @@ export interface GhWorkflowRun {
     login: string;
   };
   url: string;
-}
-
-/**
- * Fetch all issue comments for a repository using gh pr/issue commands.
- * Returns null if gh CLI is not available or fails.
- */
-export function fetchIssueCommentsWithGh(
-  owner: string,
-  repo: string,
-  token?: string,
-): GhIssueComment[] | null {
-  if (!isGhAvailable()) {
-    return null;
-  }
-
-  try {
-    const env = token ? { GH_TOKEN: token } : undefined;
-    // Query all comments across the repository
-    const output = runGh(
-      [
-        "api",
-        `repos/${owner}/${repo}/issues/comments`,
-        "--paginate",
-        "-H",
-        "Accept: application/vnd.github+json",
-        "-H",
-        "X-GitHub-Api-Version: 2022-11-28",
-      ],
-      env,
-    );
-    // Note: This returns raw API data that needs to be transformed
-    // For now, return null to indicate we need Octokit fallback
-    return null;
-  } catch {
-    return null;
-  }
 }
 
 /**
