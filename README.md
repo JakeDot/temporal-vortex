@@ -6,7 +6,11 @@
 
 ### Git Hooks
 
-This repository uses git hooks to enforce commit message standards. When you run `npm install`, the `prepare` script automatically configures your git repository to use the `.githooks/` directory for commit hooks.
+This repository uses git hooks to enforce commit message standards. On macOS/Linux, running `npm install` automatically configures your git repository to use the `.githooks/` directory for commit hooks. On Windows, run the setup command manually:
+
+```sh
+git config core.hooksPath .githooks
+```
 
 **Note:** This modifies your local git configuration (`core.hooksPath`) only for this repository and does not affect other repositories. You can manually undo this with `git config --unset core.hooksPath`.
 
