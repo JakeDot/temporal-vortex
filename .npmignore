@@ -17,6 +17,7 @@ node_modules/
 .github
 .githooks
 docs/
+PUBLISH.md
 
 # Other
 .gitignore
