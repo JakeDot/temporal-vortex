@@ -2,11 +2,34 @@
 
 > A GitLens-inspired CLI for surfacing timestamped change events from a git repository and the GitHub API.
 
+## Quick Start
+
+After cloning the repository, run the setup script to install dependencies, configure git hooks, build the project, and run tests:
+
+```sh
+npm run setup
+```
+
+This is equivalent to running:
+```sh
+npm install
+npm run build
+npm test
+```
+
 ## Developer Setup
+
+### Initial Setup
+
+The `npm run setup` command handles all initial setup tasks:
+- Installs npm dependencies
+- Configures git hooks for commit message validation
+- Builds the TypeScript project
+- Runs the test suite
 
 ### Git Hooks
 
-This repository uses git hooks to enforce commit message standards and display commit information. Running `npm install` automatically configures your git repository to use the `.githooks/` directory for commit hooks on all platforms. If automatic setup fails, run the setup command manually:
+This repository uses git hooks to enforce commit message standards and display commit information. The setup script automatically configures your git repository to use the `.githooks/` directory for commit hooks on all platforms. If you need to configure this manually:
 
 ```sh
 git config core.hooksPath .githooks
