@@ -1,0 +1,44 @@
+name: Cleanup Merged Copilot Branches
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete merged copilot branches
+        if: github.event.pull_request.merged == true
+        run: |
+          # Get the branch name that was merged
+          MERGED_BRANCH="${{ github.event.pull_request.head.ref }}"
+          
+          # Check if this is a copilot branch
+          if [[ "$MERGED_BRANCH" == copilot/* ]]; then
+            echo "🧹 Cleaning up merged copilot branch: $MERGED_BRANCH"
+            
+            # Delete the branch locally first (if it exists)
+            git branch -D "$MERGED_BRANCH" 2>/dev/null || true
+            
+            # Delete the remote branch
+            if git push origin --delete "$MERGED_BRANCH" 2>/dev/null; then
+              echo "✅ Successfully deleted remote branch: $MERGED_BRANCH"
+            else
+              echo "⚠️  Could not delete remote branch: $MERGED_BRANCH (may have already been deleted)"
+            fi
+          else
+            echo "ℹ️  Branch '$MERGED_BRANCH' is not a copilot branch, skipping cleanup"
+          fi
+
+      - name: List remaining copilot branches
+        run: |
+          echo "📋 Remaining copilot branches:"
+          git branch -r | grep "origin/copilot/" || echo "   (none)"
