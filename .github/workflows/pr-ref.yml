@@ -21,8 +21,8 @@ jobs:
         run: |
           # Get the first line (subject) of the commit message
           MSG=$(git log -1 --pretty=%s ${{ github.event.pull_request.head.sha }})
-          # Use a portable randomized delimiter to safely handle any commit message content
-          DELIMITER="EOF_$(date +%s)_$RANDOM"
+          # Use a cryptographically secure randomized delimiter to safely handle any commit message content
+          DELIMITER="EOF_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' ')"
           {
             echo "message<<$DELIMITER"
             echo "$MSG"
