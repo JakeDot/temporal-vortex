@@ -21,11 +21,12 @@ jobs:
         run: |
           # Get the first line (subject) of the commit message
           MSG=$(git log -1 --pretty=%s ${{ github.event.pull_request.head.sha }})
-          # Store it in an output for later steps using the documented multiline syntax
+          # Use a randomized delimiter to safely handle any commit message content
+          DELIMITER="EOF_$(date +%s%N)"
           {
-            echo 'message<<EOF'
+            echo "message<<$DELIMITER"
             echo "$MSG"
-            echo 'EOF'
+            echo "$DELIMITER"
           } >> "$GITHUB_OUTPUT"
 
       - name: Check if this is the initial placeholder commit
@@ -36,9 +37,9 @@ jobs:
           TRIMMED=$(echo "$MSG" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '[:upper:]' '[:lower:]')
 
           if [ "$TRIMMED" = "initial plan" ]; then
-            echo "is_initial=true" >> $GITHUB_OUTPUT
+            echo "is_initial=true" >> "$GITHUB_OUTPUT"
           else
-            echo "is_initial=false" >> $GITHUB_OUTPUT
+            echo "is_initial=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip for fork PR

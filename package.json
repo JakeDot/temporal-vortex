@@ -7,7 +7,7 @@
     "tv": "dist/cli.js"
   },
   "scripts": {
-    "prepare": "node -e \"const fs=require('fs'); const cp=require('child_process'); try { if (fs.existsSync('.git')) { cp.spawnSync('git', ['config', 'core.hooksPath', '.githooks'], { stdio: 'ignore' }); } } catch (e) {}\"",
+    "prepare": "node -e \"const fs=require('fs'); const cp=require('child_process'); try { if (fs.existsSync('.git')) { const result = cp.spawnSync('git', ['config', 'core.hooksPath', '.githooks'], { stdio: 'pipe' }); if (result.status !== 0 || result.error) { console.warn('⚠️  Warning: Failed to configure git hooks. Run manually: git config core.hooksPath .githooks'); } } } catch (e) { console.warn('⚠️  Warning: Failed to configure git hooks. Run manually: git config core.hooksPath .githooks'); }\"",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src tests --ext .ts",
