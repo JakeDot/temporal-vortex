@@ -1,0 +1,68 @@
+name: Create PR Snapshot Branch
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  create-snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Get commit message
+        id: commit_msg
+        run: |
+          # Get the first line (subject) of the commit message
+          MSG=$(git log -1 --pretty=%s ${{ github.event.pull_request.head.sha }})
+          # Use a cryptographically secure randomized delimiter to safely handle any commit message content
+          DELIMITER="EOF_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' ')"
+          {
+            echo "message<<$DELIMITER"
+            echo "$MSG"
+            echo "$DELIMITER"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check if this is the initial placeholder commit
+        id: check_initial
+        run: |
+          MSG="${{ steps.commit_msg.outputs.message }}"
+          # Trim whitespace and convert to lowercase
+          TRIMMED=$(echo "$MSG" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '[:upper:]' '[:lower:]')
+
+          if [ "$TRIMMED" = "initial plan" ]; then
+            echo "is_initial=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_initial=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip for fork PR
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "ℹ️ PR is from a fork. Skipping snapshot branch creation."
+          echo "   The GITHUB_TOKEN does not have write access to the base repository for fork PRs."
+
+      - name: Create/Update snapshot branch
+        if: steps.check_initial.outputs.is_initial == 'false' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          SNAPSHOT_REF="refs/heads/snapshots/pr-${PR_NUMBER}"
+
+          echo "✅ First real commit detected. Creating snapshot branch: snapshots/pr-${PR_NUMBER}"
+          if ! git push origin ${{ github.event.pull_request.head.sha }}:${SNAPSHOT_REF}; then
+            echo "❌ Failed to create snapshot branch" >&2
+            echo "   This may be due to insufficient permissions or network issues." >&2
+            exit 1
+          fi
+
+      - name: Skip for placeholder commit
+        if: steps.check_initial.outputs.is_initial == 'true' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          echo "⊘ Skipping snapshot creation for 'Initial Plan' placeholder commit"
+          echo "   Snapshot branch will be created when a real commit is pushed to this PR"

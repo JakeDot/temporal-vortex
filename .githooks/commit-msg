@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#
+# Reject commits with the message "Initial Plan" to ensure meaningful commits
+# are made to PRs created by the Copilot coding agent.
+#
+
+# Validate that the commit message file argument exists and is readable
+if [ -z "$1" ] || [ ! -r "$1" ]; then
+    echo "❌ Error: Commit message file not found or not readable" >&2
+    exit 1
+fi
+
+# Get the first line (subject) of the commit message from the file passed as argument
+commit_msg=$(head -n 1 "$1")
+
+# Trim leading/trailing whitespace and convert to lowercase for comparison
+trimmed_msg=$(echo "$commit_msg" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//')
+lower_msg=$(echo "$trimmed_msg" | tr '[:upper:]' '[:lower:]')
+
+# Check if the commit message (case-insensitive) is "Initial Plan"
+if [ "$lower_msg" = "initial plan" ]; then
+    echo "❌ Commit rejected: 'Initial Plan' is a placeholder commit message." >&2
+    echo "" >&2
+    echo "   The Copilot agent uses 'Initial Plan' as a template commit when opening PRs." >&2
+    echo "   Please replace this with a meaningful commit message describing your changes." >&2
+    echo "" >&2
+    echo "   To amend your commit, run:" >&2
+    echo "   git commit --amend -m \"Your meaningful commit message\"" >&2
+    exit 1
+fi
+
+exit 0
