@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 695.31 404.45" font-family="SauceCodePro Nerd Font, Source Code Pro, Courier" font-size="14">
+  <g fill="#D3D3D3">
+    <rect x="0" y="0" width="695.31" height="404.45" fill="#000000"/>
+    <text x="20" y="34.55">$ tv github workflows JakeDot/temporal-vortex</text>
+    <text x="20" y="53.55" fill="#00AA00">2024-05-20 15:45:23 UTC - 15:46:02 UTC</text>
+    <text x="20" y="72.55" fill="#00DD00">✓ SUCCESS</text>
+    <text x="40" y="91.55">Publish to GitHub Pages [push on main]</text>
+    <text x="40" y="110.55" fill="#888888">Duration: 39s</text>
+    <text x="20" y="129.55" fill="#00AA00">2024-05-20 14:23:01 UTC - 14:28:45 UTC</text>
+    <text x="20" y="148.55" fill="#00DD00">✓ SUCCESS</text>
+    <text x="40" y="167.55">Build and Test [push on main]</text>
+    <text x="40" y="186.55" fill="#888888">Duration: 5m 44s</text>
+    <text x="20" y="205.55" fill="#00AA00">2024-05-19 10:15:30 UTC - 10:21:15 UTC</text>
+    <text x="20" y="224.55" fill="#00DD00">✓ SUCCESS</text>
+    <text x="40" y="243.55">Create PR Snapshot Branch [pull_request]</text>
+    <text x="40" y="262.55" fill="#888888">Duration: 5m 45s</text>
+    <text x="20" y="281.55" fill="#00AA00">2024-05-18 16:42:00 UTC - 16:49:30 UTC</text>
+    <text x="20" y="300.55" fill="#FFDD00">⚠ FAILURE</text>
+    <text x="40" y="319.55">Build and Test [push on develop]</text>
+    <text x="40" y="338.55" fill="#888888">Duration: 7m 30s</text>
+    <text x="20" y="357.55" fill="#888888">[Type 'q' to quit | Showing 1-4 of 24 workflows]</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 695.31 404.45" font-family="SauceCodePro Nerd Font, Source Code Pro, Courier" font-size="14">
+  <g fill="#D3D3D3">
+    <rect x="0" y="0" width="695.31" height="404.45" fill="#000000"/>
+    <text x="20" y="34.55">$ tv github events JakeDot/temporal-vortex</text>
+    <text x="20" y="53.55" fill="#00AA00">2024-05-20 14:23:45 UTC</text>
+    <text x="20" y="72.55" fill="#FF8800">ISSUE_COMMENT</text>
+    <text x="40" y="91.55">added comment on #42: "Great work on the refactor"</text>
+    <text x="20" y="110.55" fill="#00AA00">2024-05-19 09:15:30 UTC</text>
+    <text x="20" y="129.55" fill="#FF8800">PR_REVIEW</text>
+    <text x="40" y="148.55">approved changes in PR #41</text>
+    <text x="20" y="167.55" fill="#00AA00">2024-05-18 16:45:12 UTC</text>
+    <text x="20" y="186.55" fill="#FF8800">WORKFLOW_RUN</text>
+    <text x="40" y="205.55">ci.yml workflow completed (success)</text>
+    <text x="20" y="224.55" fill="#00AA00">2024-05-17 11:30:00 UTC</text>
+    <text x="20" y="243.55" fill="#FF8800">PR_REVIEW_COMMENT</text>
+    <text x="40" y="262.55">commented on line 42: "Consider using const here"</text>
+    <text x="20" y="281.55" fill="#00AA00">2024-05-16 08:15:45 UTC</text>
+    <text x="20" y="300.55" fill="#FF8800">COMMIT_COMMENT</text>
+    <text x="40" y="319.55">commented on commit a1b2c3d: "Good performance improvement"</text>
+    <text x="20" y="357.55" fill="#888888">[Type 'q' to quit | Showing 1-6 of 42 events]</text>
+  </g>
+</svg>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed temporal-vortex command reference with examples and usage.">
+    <title>Commands Reference - temporal-vortex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .breadcrumb {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .breadcrumb a:hover {
+            border-bottom-color: white;
+        }
+
+        main {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+
+        nav h2 {
+            font-size: 1.2rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #e8eaf6;
+            padding-left: 16px;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .option-group {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .option-group h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .option {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .option:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .option-flag {
+            background-color: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .screenshot-container {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 25px 0;
+            border: 1px solid #ddd;
+        }
+
+        .screenshot-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .command-usage {
+            background-color: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-usage strong {
+            color: #0066cc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .back-to-top {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .back-to-top a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-top a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            pre {
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Commands Reference</h1>
+            <p class="breadcrumb"><a href="index.html">← Back to Home</a></p>
+        </header>
+
+        <main>
+            <nav>
+                <h2>Navigation</h2>
+                <ul>
+                    <li><a href="#git-commands">Git Commands</a>
+                        <ul>
+                            <li><a href="#tv-log">tv log</a></li>
+                            <li><a href="#tv-summary">tv summary</a></li>
+                            <li><a href="#tv-annotate">tv annotate</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#github-commands">GitHub Commands</a>
+                        <ul>
+                            <li><a href="#tv-github-events">tv gh events</a></li>
+                            <li><a href="#tv-github-workflows">tv gh workflows</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Git Commands Section -->
+            <section id="git-commands">
+                <h2>Git Commands</h2>
+                <p>These commands work on your local git repository and analyze commit history with focus on timestamps and author information.</p>
+
+                <!-- tv log -->
+                <section id="tv-log">
+                    <h3>tv log [file]</h3>
+                    <p>Show commit history with color-coded age timestamps. This command displays all commits in the repository or for a specific file, with timestamps color-coded by age to quickly visualize the lifecycle of your codebase.</p>
+
+                    <div class="command-usage">
+                        <strong>Usage:</strong> tv log [options] [file]
+                    </div>
+
+                    <h4>Options</h4>
+                    <div class="option-group">
+                        <h4>General Options</h4>
+                        <div class="option">
+                            <span class="option-flag">-r, --repo &lt;path&gt;</span>
+                            <p>Path to the git repository (default: <code>.</code>)</p>
+                        </div>
+                        <div class="option">
+                            <span class="option-flag">-n, --max-count &lt;n&gt;</span>
+                            <p>Limit the number of commits to display</p>
+                        </div>
+                    </div>
+
+                    <h4>Examples</h4>
+                    <pre><code># Show all commits in the repository
+tv log
+
+# Show commits for a specific file
+tv log src/cli.ts
+
+# Show only the last 10 commits
+tv log -n 10
+
+# Show commits for a specific repository
+tv log --repo /path/to/repo</code></pre>
+
+                    <h4>Screenshot</h4>
+                    <div class="screenshot-container">
+                        <img src="screenshots/log.svg" alt="tv log command screenshot">
+                    </div>
+                </section>
+
+                <!-- tv summary -->
+                <section id="tv-summary">
+                    <h3>tv summary [path]</h3>
+                    <p>Show per-file timestamp statistics including the newest change, first commit date, total commit count, and a list of authors. This gives you a quick overview of which files are actively maintained and their history.</p>
+
+                    <div class="command-usage">
+                        <strong>Usage:</strong> tv summary [options] [path]
+                    </div>
+
+                    <h4>Options</h4>
+                    <div class="option-group">
+                        <h4>General Options</h4>
+                        <div class="option">
+                            <span class="option-flag">-r, --repo &lt;path&gt;</span>
+                            <p>Path to the git repository (default: <code>.</code>)</p>
+                        </div>
+                    </div>
+
+                    <h4>Displayed Columns</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>File</td>
+                                <td>Path to the tracked file</td>
+                            </tr>
+                            <tr>
+                                <td>Newest</td>
+                                <td>Date of the most recent commit</td>
+                            </tr>
+                            <tr>
+                                <td>First</td>
+                                <td>Date of the initial commit</td>
+                            </tr>
+                            <tr>
+                                <td>Commits</td>
+                                <td>Total number of commits touching this file</td>
+                            </tr>
+                            <tr>
+                                <td>Authors</td>
+                                <td>List of authors who have modified this file</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Examples</h4>
+                    <pre><code># Show statistics for all files
+tv summary
+
+# Show statistics for a specific directory
+tv summary src/
+
+# Show statistics for a specific file
+tv summary src/cli.ts
+
+# Show statistics for a different repository
+tv summary --repo /path/to/repo</code></pre>
+
+                    <h4>Screenshot</h4>
+                    <div class="screenshot-container">
+                        <img src="screenshots/summary.svg" alt="tv summary command screenshot">
+                    </div>
+                </section>
+
+                <!-- tv annotate -->
+                <section id="tv-annotate">
+                    <h3>tv annotate &lt;file&gt;</h3>
+                    <p>Show per-line blame with age-colored timestamps, similar to <code>git blame</code>. Each line displays the timestamp of the last commit that touched it, color-coded by age to quickly identify recent changes and legacy code.</p>
+
+                    <div class="command-usage">
+                        <strong>Usage:</strong> tv annotate [options] &lt;file&gt;
+                    </div>
+
+                    <h4>Options</h4>
+                    <div class="option-group">
+                        <h4>General Options</h4>
+                        <div class="option">
+                            <span class="option-flag">-r, --repo &lt;path&gt;</span>
+                            <p>Path to the git repository (default: <code>.</code>)</p>
+                        </div>
+                        <div class="option">
+                            <span class="option-flag">--no-author</span>
+                            <p>Omit the author column from the output</p>
+                        </div>
+                    </div>
+
+                    <h4>Displayed Columns</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Line Number</td>
+                                <td>The line number in the file</td>
+                            </tr>
+                            <tr>
+                                <td>Timestamp</td>
+                                <td>When the line was last modified (color-coded by age)</td>
+                            </tr>
+                            <tr>
+                                <td>Author</td>
+                                <td>Who made the last modification (optional)</td>
+                            </tr>
+                            <tr>
+                                <td>Code</td>
+                                <td>The actual line content</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Examples</h4>
+                    <pre><code># Annotate a file with timestamps and authors
+tv annotate src/cli.ts
+
+# Annotate without showing authors
+tv annotate src/cli.ts --no-author
+
+# Annotate a file in a different repository
+tv annotate --repo /path/to/repo src/cli.ts</code></pre>
+
+                    <h4>Screenshot</h4>
+                    <div class="screenshot-container">
+                        <img src="screenshots/annotate.svg" alt="tv annotate command screenshot">
+                    </div>
+                </section>
+            </section>
+
+            <!-- GitHub Commands Section -->
+            <section id="github-commands">
+                <h2>GitHub Commands</h2>
+                <p>These commands interact with the GitHub API to extract timestamped events and workflow information. You'll need a GitHub personal access token to use these commands.</p>
+
+                <h3>Authentication</h3>
+                <p>All GitHub commands require authentication. Provide your token using one of these methods:</p>
+                <pre><code># Option 1: Set as environment variable
+export GITHUB_TOKEN=your_token_here
+
+# Option 2: Pass as command-line flag
+tv gh events owner/repo --token your_token_here</code></pre>
+
+                <!-- tv gh events -->
+                <section id="tv-github-events">
+                    <h3>tv gh events &lt;owner/repo&gt;</h3>
+                    <p>Show all timestamped events from the GitHub API. This includes comments, code reviews, pull request reviews, commit comments, and workflow runs. Filter by event type to focus on specific kinds of activity.</p>
+
+                    <div class="command-usage">
+                        <strong>Usage:</strong> tv gh events [options] &lt;owner/repo&gt;
+                    </div>
+
+                    <h4>Options</h4>
+                    <div class="option-group">
+                        <h4>General Options</h4>
+                        <div class="option">
+                            <span class="option-flag">-t, --token &lt;token&gt;</span>
+                            <p>GitHub personal access token (or set GITHUB_TOKEN environment variable)</p>
+                        </div>
+                        <div class="option">
+                            <span class="option-flag">-k, --kind &lt;kinds&gt;</span>
+                            <p>Comma-separated event kinds to include. Available kinds:</p>
+                            <ul style="margin-top: 8px; margin-left: 20px;">
+                                <li><code>issue_comment</code> - Comments on issues</li>
+                                <li><code>pr_review_comment</code> - Review comments on pull requests</li>
+                                <li><code>pr_review</code> - Pull request reviews</li>
+                                <li><code>commit_comment</code> - Comments on commits</li>
+                                <li><code>workflow_run</code> - Workflow execution events</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Examples</h4>
+                    <pre><code># Show all GitHub events for a repository
+tv gh events JakeDot/temporal-vortex
+
+# Show only pull request reviews
+tv gh events JakeDot/temporal-vortex --kind pr_review
+
+# Show issue comments and pull request reviews
+tv gh events JakeDot/temporal-vortex --kind issue_comment,pr_review
+
+# Use a specific token
+tv gh events JakeDot/temporal-vortex --token gh_1234567890abcdef</code></pre>
+
+                    <h4>Screenshot</h4>
+                    <div class="screenshot-container">
+                        <img src="screenshots/github-events.svg" alt="tv github events command screenshot">
+                    </div>
+                </section>
+
+                <!-- tv gh workflows -->
+                <section id="tv-github-workflows">
+                    <h3>tv gh workflows &lt;owner/repo&gt;</h3>
+                    <p>Show GitHub Actions workflow runs with agent start and end timestamps. This command displays the workflow name, status, duration, and timing information to help you track CI/CD pipeline performance and identify bottlenecks.</p>
+
+                    <div class="command-usage">
+                        <strong>Usage:</strong> tv gh workflows [options] &lt;owner/repo&gt;
+                    </div>
+
+                    <h4>Options</h4>
+                    <div class="option-group">
+                        <h4>General Options</h4>
+                        <div class="option">
+                            <span class="option-flag">-t, --token &lt;token&gt;</span>
+                            <p>GitHub personal access token (or set GITHUB_TOKEN environment variable)</p>
+                        </div>
+                    </div>
+
+                    <h4>Output Information</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timestamp Range</td>
+                                <td>Start and end time of the workflow run</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>Success, failure, or other status of the run</td>
+                            </tr>
+                            <tr>
+                                <td>Workflow Name</td>
+                                <td>Name of the GitHub Actions workflow</td>
+                            </tr>
+                            <tr>
+                                <td>Trigger Event</td>
+                                <td>What triggered the workflow (e.g., push, pull_request)</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>Total time the workflow took to complete</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Examples</h4>
+                    <pre><code># Show all workflow runs
+tv gh workflows JakeDot/temporal-vortex
+
+# Show workflow runs with a specific token
+tv gh workflows JakeDot/temporal-vortex --token gh_1234567890abcdef
+
+# Pipe to other tools for analysis
+tv gh workflows JakeDot/temporal-vortex | grep "FAILURE"</code></pre>
+
+                    <h4>Screenshot</h4>
+                    <div class="screenshot-container">
+                        <img src="screenshots/github-workflows.svg" alt="tv github workflows command screenshot">
+                    </div>
+                </section>
+            </section>
+
+            <!-- Help Command -->
+            <section>
+                <h2>Getting Help</h2>
+                <p>Use the <code>--help</code> flag to display command help information at any time.</p>
+
+                <h4>Examples</h4>
+                <pre><code># Show general help
+tv --help
+
+# Show help for a specific command
+tv log --help
+tv summary --help
+tv annotate --help
+tv gh --help
+tv gh events --help
+tv gh workflows --help</code></pre>
+
+                <h4>Help Output</h4>
+                <div class="screenshot-container">
+                    <img src="screenshots/help.svg" alt="tv --help command screenshot">
+                </div>
+            </section>
+
+            <div class="back-to-top">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
