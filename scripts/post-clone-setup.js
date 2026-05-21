@@ -100,7 +100,4 @@ function setup() {
   log('  tv --help        - Show CLI help (after building)', 'blue');
 }
 
-setup().catch(error => {
-  log(`\n✗ Setup failed: ${error.message}`, 'red');
-  process.exit(1);
-});
+setup();
