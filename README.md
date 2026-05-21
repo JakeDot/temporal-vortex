@@ -2,6 +2,44 @@
 
 > A GitLens-inspired CLI for surfacing timestamped change events from a git repository and the GitHub API.
 
+## Developer Setup
+
+### Git Hooks
+
+This repository uses git hooks to enforce commit message standards. When you run `npm install`, the setup automatically configures your git repository to use the `.githooks/` directory for commit hooks.
+
+**Commit Message Hook:** The `commit-msg` hook rejects commits with the placeholder message "Initial Plan" to ensure meaningful commits are made to PRs. If you encounter this error, amend your commit with a real message:
+
+```sh
+git commit --amend -m "Your meaningful commit message"
+```
+
+### Checking Out PRs
+
+You can check out any pull request using one of these methods:
+
+**Method 1: Clone/fetch a snapshot branch (easiest)**
+
+Once a PR has a real commit (after the "Initial Plan" placeholder), a snapshot branch is automatically created at `snapshots/pr-<N>`:
+
+```sh
+git fetch origin snapshots/pr-42
+git checkout snapshots/pr-42
+```
+
+Or clone directly:
+
+```sh
+git clone --branch snapshots/pr-42 https://github.com/JakeDot/temporal-vortex.git
+```
+
+**Method 2: Fetch PR directly using git refs (always works)**
+
+```sh
+git fetch origin refs/pull/42/head:pr-42
+git checkout pr-42
+```
+
 ## Commands
 
 ### `tv log [file]`

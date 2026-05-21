@@ -7,6 +7,7 @@
     "tv": "dist/cli.js"
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src tests --ext .ts",
