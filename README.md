@@ -29,7 +29,7 @@ The `npm run setup` command handles all initial setup tasks:
 
 ### Git Hooks
 
-This repository uses git hooks to enforce commit message standards. The setup script automatically configures your git repository to use the `.githooks/` directory for commit hooks on all platforms. If you need to configure this manually:
+This repository uses git hooks to enforce commit message standards and display commit information. The setup script automatically configures your git repository to use the `.githooks/` directory for commit hooks on all platforms. If you need to configure this manually:
 
 ```sh
 git config core.hooksPath .githooks
@@ -41,6 +41,26 @@ git config core.hooksPath .githooks
 
 ```sh
 git commit --amend -m "Your meaningful commit message"
+```
+
+**Post-Commit Hook:** The `post-commit` hook automatically runs `tv diff HEAD` after each successful commit to display timestamp information about the files you just committed. This helps you understand what files were touched and when they were last modified.
+
+To temporarily disable hooks for a single commit, use the `--no-verify` flag:
+
+```sh
+git commit --no-verify -m "Your commit message"
+```
+
+To permanently disable hooks for this repository, unset the hooks path:
+
+```sh
+git config --unset core.hooksPath
+```
+
+To re-enable hooks later:
+
+```sh
+git config core.hooksPath .githooks
 ```
 
 ### Checking Out PRs
@@ -88,6 +108,17 @@ Show per-file timestamp statistics (newest change, first commit, commit count, a
 Per-line blame with age-colored timestamps, similar to `git blame`.
 
 ![tv annotate](docs/screenshots/annotate.svg)
+
+### `tv diff [revision]`
+
+Show timestamp information for files changed in a commit or revision (defaults to HEAD). Useful for understanding what files were touched and when. Automatically runs as a post-commit hook.
+
+```sh
+tv diff HEAD          # Show files changed in the most recent commit
+tv diff abc123        # Show files changed in a specific commit
+```
+
+This command is automatically invoked after each commit via the post-commit hook (see [Git Hooks](#git-hooks) section).
 
 ### `tv --help`
 

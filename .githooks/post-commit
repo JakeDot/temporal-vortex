@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# Post-commit hook: Show timestamp info for files changed in the commit.
+#
+# This hook runs after a successful commit and displays a summary of which files
+# were changed, using the `tv diff` command to show timestamp information.
+#
+
+# Check if tv command is available
+if command -v tv &> /dev/null; then
+    # tv is installed globally, use it directly
+    tv diff HEAD 2>/dev/null
+elif [ -f "package.json" ] && command -v npx &> /dev/null; then
+    # In development: try npx (comes with Node.js)
+    # First try installed temporal-vortex in node_modules
+    if [ -f "node_modules/.bin/tv" ]; then
+        node_modules/.bin/tv diff HEAD 2>/dev/null
+    elif [ -f "dist/cli.js" ]; then
+        # Or use the built dist if available
+        node dist/cli.js diff HEAD 2>/dev/null
+    fi
+    # If none of the above work, silently continue (post-commit hook should not fail the commit)
+fi
+
+# Exit successfully regardless of whether tv command ran
+# Post-commit hooks should not fail the commit
+exit 0
