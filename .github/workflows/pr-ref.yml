@@ -19,19 +19,17 @@ jobs:
       - name: Get commit message
         id: commit_msg
         run: |
-          # Get the full commit message of the PR head
-          MSG=$(git log -1 --pretty=%B ${{ github.event.pull_request.head.sha }})
+          # Get the first line (subject) of the commit message
+          MSG=$(git log -1 --pretty=%s ${{ github.event.pull_request.head.sha }})
           # Store it in an output for later steps
-          echo "message<<EOF" >> $GITHUB_OUTPUT
-          echo "$MSG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "message=$MSG" >> $GITHUB_OUTPUT
 
       - name: Check if this is the initial placeholder commit
         id: check_initial
         run: |
           MSG="${{ steps.commit_msg.outputs.message }}"
           # Trim whitespace and convert to lowercase
-          TRIMMED=$(echo "$MSG" | xargs | tr '[:upper:]' '[:lower:]')
+          TRIMMED=$(echo "$MSG" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '[:upper:]' '[:lower:]')
           
           if [ "$TRIMMED" = "initial plan" ]; then
             echo "is_initial=true" >> $GITHUB_OUTPUT
@@ -46,7 +44,11 @@ jobs:
           SNAPSHOT_REF="refs/heads/snapshots/pr-${PR_NUMBER}"
           
           echo "✓ First real commit detected. Creating snapshot branch: snapshots/pr-${PR_NUMBER}"
-          git push origin ${{ github.event.pull_request.head.sha }}:${SNAPSHOT_REF}
+          if ! git push origin ${{ github.event.pull_request.head.sha }}:${SNAPSHOT_REF}; then
+            echo "❌ Failed to create snapshot branch" >&2
+            echo "   This may be due to insufficient permissions or network issues." >&2
+            exit 1
+          fi
 
       - name: Skip for placeholder commit
         if: steps.check_initial.outputs.is_initial == 'true'

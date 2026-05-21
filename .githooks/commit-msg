@@ -4,11 +4,11 @@
 # are made to PRs created by the Copilot coding agent.
 #
 
-# Get the commit message from the file passed as argument
-commit_msg=$(cat "$1")
+# Get the first line (subject) of the commit message from the file passed as argument
+commit_msg=$(head -n 1 "$1")
 
 # Trim leading/trailing whitespace and convert to lowercase for comparison
-trimmed_msg=$(echo "$commit_msg" | xargs)
+trimmed_msg=$(echo "$commit_msg" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//')
 lower_msg=$(echo "$trimmed_msg" | tr '[:upper:]' '[:lower:]')
 
 # Check if the commit message (case-insensitive) is "Initial Plan"

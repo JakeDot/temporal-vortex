@@ -6,7 +6,9 @@
 
 ### Git Hooks
 
-This repository uses git hooks to enforce commit message standards. When you run `npm install`, the setup automatically configures your git repository to use the `.githooks/` directory for commit hooks.
+This repository uses git hooks to enforce commit message standards. When you run `npm install`, the `prepare` script automatically configures your git repository to use the `.githooks/` directory for commit hooks.
+
+**Note:** This modifies your local git configuration (`core.hooksPath`) only for this repository and does not affect other repositories. You can manually undo this with `git config core.hooksPath` (and setting it to empty).
 
 **Commit Message Hook:** The `commit-msg` hook rejects commits with the placeholder message "Initial Plan" to ensure meaningful commits are made to PRs. If you encounter this error, amend your commit with a real message:
 
