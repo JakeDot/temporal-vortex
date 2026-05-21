@@ -21,8 +21,12 @@ jobs:
         run: |
           # Get the first line (subject) of the commit message
           MSG=$(git log -1 --pretty=%s ${{ github.event.pull_request.head.sha }})
-          # Store it in an output for later steps
-          echo "message=$MSG" >> $GITHUB_OUTPUT
+          # Store it in an output for later steps using the documented multiline syntax
+          {
+            echo 'message<<EOF'
+            echo "$MSG"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Check if this is the initial placeholder commit
         id: check_initial
