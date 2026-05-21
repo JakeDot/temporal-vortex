@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A GitLens-inspired CLI for surfacing timestamped change events from a git repository and the GitHub API.">
+    <title>temporal-vortex - Git Timeline Analysis CLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px 40px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 20px auto;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        main {
+            background-color: white;
+            border-radius: 12px;
+            margin: 40px 0;
+            padding: 60px 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            color: #333;
+            padding: 0;
+            background-color: transparent;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .feature p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-top: 60px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: opacity 0.3s;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            pre {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>temporal-vortex</h1>
+            <p class="tagline">A GitLens-inspired CLI for surfacing timestamped change events from a git repository and the GitHub API.</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/JakeDot/temporal-vortex" class="btn btn-primary">View on GitHub</a>
+                <a href="#install" class="btn btn-secondary">Get Started</a>
+            </div>
+        </header>
+
+        <main>
+            <section>
+                <h2>Features</h2>
+                <div class="features">
+                    <div class="feature">
+                        <h4>📜 TV Log</h4>
+                        <p>Show commit history with color-coded age timestamps</p>
+                    </div>
+                    <div class="feature">
+                        <h4>📊 TV Summary</h4>
+                        <p>Per-file timestamp statistics (newest change, first commit, commit count, authors)</p>
+                    </div>
+                    <div class="feature">
+                        <h4>✏️ TV Annotate</h4>
+                        <p>Per-line blame with age-colored timestamps, similar to git blame</p>
+                    </div>
+                    <div class="feature">
+                        <h4>🐙 GitHub Integration</h4>
+                        <p>Timestamped events (comments, reviews, workflow runs) and GitHub Actions workflow analysis</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Commands</h2>
+
+                <h3>Git Commands</h3>
+
+                <h4>tv log [file]</h4>
+                <p>Show commit history with color-coded age timestamps.</p>
+
+                <h4>tv summary [path]</h4>
+                <p>Show per-file timestamp statistics (newest change, first commit, commit count, authors).</p>
+
+                <h4>tv annotate &lt;file&gt;</h4>
+                <p>Per-line blame with age-colored timestamps, similar to <code>git blame</code>.</p>
+
+                <h4>tv --help</h4>
+                <p>Display help information for all commands.</p>
+
+                <h3>GitHub Commands</h3>
+                <p>Requires a <code>GITHUB_TOKEN</code> env var or the <code>--token</code> flag.</p>
+
+                <pre><code># All timestamped events (comments, reviews, workflow runs)
+tv github events &lt;owner/repo&gt;
+
+# GitHub Actions workflow runs (agent start/end timestamps)
+tv github workflows &lt;owner/repo&gt;</code></pre>
+            </section>
+
+            <section id="install">
+                <h2>Installation</h2>
+                <pre><code>npm install -g temporal-vortex</code></pre>
+                <p>After installation, you'll have the <code>tv</code> command available globally.</p>
+            </section>
+
+            <section>
+                <h2>Developer Setup</h2>
+
+                <h3>Git Hooks</h3>
+                <p>This repository uses git hooks to enforce commit message standards. Running <code>npm install</code> automatically configures your git repository to use the <code>.githooks/</code> directory for commit hooks on all platforms. If automatic setup fails, run the setup command manually:</p>
+                <pre><code>git config core.hooksPath .githooks</code></pre>
+                <p><strong>Note:</strong> This modifies your local git configuration (<code>core.hooksPath</code>) only for this repository and does not affect other repositories. You can manually undo this with <code>git config --unset core.hooksPath</code>.</p>
+
+                <h3>Commit Message Hook</h3>
+                <p>The <code>commit-msg</code> hook rejects commits with the placeholder message "Initial Plan" to ensure meaningful commits are made to PRs. If you encounter this error, amend your commit with a real message:</p>
+                <pre><code>git commit --amend -m "Your meaningful commit message"</code></pre>
+
+                <h3>Checking Out PRs</h3>
+                <p>You can check out any pull request using one of these methods:</p>
+
+                <h4>Method 1: Clone/fetch a snapshot branch (easiest)</h4>
+                <p>Once a PR has a real commit (after the "Initial Plan" placeholder), a snapshot branch is automatically created at <code>snapshots/pr-&lt;PR-NUMBER&gt;</code>:</p>
+                <pre><code>git fetch origin snapshots/pr-&lt;PR-NUMBER&gt;
+git checkout snapshots/pr-&lt;PR-NUMBER&gt;</code></pre>
+                <p>Or clone directly:</p>
+                <pre><code>git clone --branch snapshots/pr-&lt;PR-NUMBER&gt; &lt;your-repo-url&gt;</code></pre>
+
+                <h4>Method 2: Fetch PR directly using git refs (always works)</h4>
+                <pre><code>git fetch origin refs/pull/&lt;PR-NUMBER&gt;/head:pr-&lt;PR-NUMBER&gt;
+git checkout pr-&lt;PR-NUMBER&gt;</code></pre>
+            </section>
+
+            <section>
+                <h2>Screenshots</h2>
+                <p>Visual demonstrations of temporal-vortex commands are available in the <a href="https://github.com/JakeDot/temporal-vortex/tree/main/docs/screenshots">docs/screenshots</a> directory.</p>
+            </section>
+
+            <section>
+                <h2>Regenerate Screenshots</h2>
+                <pre><code>npm run screenshot</code></pre>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 temporal-vortex. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://github.com/JakeDot/temporal-vortex">GitHub</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
