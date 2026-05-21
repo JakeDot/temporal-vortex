@@ -7,21 +7,24 @@
 #
 
 # Check if tv command is available
-if ! command -v tv &> /dev/null; then
-    # tv not installed globally, try using npx if in development
-    if [ -f "package.json" ] && command -v npx &> /dev/null; then
-        # Use npx to run the built CLI from node_modules or local dist
-        npx --yes temporal-vortex diff HEAD 2>/dev/null || npx ts-node src/cli.ts diff HEAD 2>/dev/null
-        exit 0
-    else
-        # tv not available, silently exit (don't fail the commit)
-        exit 0
+if command -v tv &> /dev/null; then
+    # tv is installed globally, use it directly
+    tv diff HEAD 2>/dev/null
+elif [ -f "package.json" ] && command -v npx &> /dev/null; then
+    # In development: try npx (comes with Node.js)
+    # First try installed temporal-vortex in node_modules
+    if [ -f "node_modules/.bin/tv" ]; then
+        node_modules/.bin/tv diff HEAD 2>/dev/null
+    elif [ -f "dist/cli.js" ]; then
+        # Or use the built dist if available
+        node dist/cli.js diff HEAD 2>/dev/null
     fi
+    # If none of the above work, silently continue (post-commit hook should not fail the commit)
 fi
 
-# Show diff for the commit that was just created
-tv diff HEAD 2>/dev/null
-
+# Exit successfully regardless of whether tv command ran
+# Post-commit hooks should not fail the commit
 exit 0
+
 
 

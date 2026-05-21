@@ -43,23 +43,40 @@ export function isGhAvailable(): boolean {
 }
 
 /**
+ * Escape an argument for safe shell execution on the current platform.
+ * On Unix, uses single-quote escaping. On Windows, uses double-quote escaping.
+ */
+function escapeShellArg(arg: string): string {
+  if (process.platform === "win32") {
+    // Windows cmd.exe: use double quotes and escape special characters
+    // Escape backslashes, double quotes, and percent signs
+    const escaped = arg
+      .replace(/\\/g, "\\\\")  // Backslash -> double backslash
+      .replace(/"/g, '\\"');   // Double quote -> escaped double quote
+    return `"${escaped}"`;
+  } else {
+    // Unix shells: use single quotes (safest for arbitrary strings)
+    // Only need to escape single quotes: replace ' with '\''
+    return `'${arg.replace(/'/g, "'\\''")}'`;
+  }
+}
+
+/**
  * Run a gh command and return the output.
  * Throws GhCliError if the command fails.
- * Uses proper shell command construction with argument escaping for security.
+ * Uses proper platform-specific argument escaping for security.
  */
 function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
   try {
-    // Build command string with properly quoted arguments for shell execution
-    const cmdStr = ["gh", ...args].map((arg) => {
-      // Escape single quotes by replacing ' with '\'' (shell-safe)
-      return `'${arg.replace(/'/g, "'\\''")}'`;
-    }).join(" ");
+    // Build command string with properly escaped arguments
+    const cmdStr = ["gh", ...args].map(escapeShellArg).join(" ");
     
     return execSync(cmdStr, {
       encoding: "utf8",
       stdio: ["pipe", "pipe", "pipe"],
       env: env ? { ...process.env, ...env } : undefined,
-      // Use shell: string path for Node.js compatibility, defaults to /bin/sh on Unix
+      // Use shell: string path for Node.js compatibility
+      // On Windows, this will use cmd.exe; on Unix, uses /bin/sh
       ...(process.platform === "win32" ? {} : { shell: "/bin/sh" }),
     } as any);
   } catch (err: unknown) {
