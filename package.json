@@ -12,10 +12,16 @@
     "lint": "eslint src tests --ext .ts",
     "start": "ts-node src/cli.ts"
   },
-  "keywords": ["git", "blame", "timestamps", "cli"],
+  "keywords": [
+    "git",
+    "blame",
+    "timestamps",
+    "cli"
+  ],
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.3.0",
+    "@octokit/rest": "^22.0.1",
+    "chalk": "^4.1.2",
     "commander": "^12.1.0"
   },
   "devDependencies": {

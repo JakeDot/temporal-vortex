@@ -55,10 +55,10 @@ describe("parsePorcelainBlame", () => {
     expect(entries[0].timestamp.getTime()).toBe(1700000000 * 1000);
   });
 
-  it("adjusts for non-UTC timezone offset", () => {
+  it("treats author-time as a UTC epoch regardless of author-tz", () => {
     const entries = parsePorcelainBlame(PORCELAIN);
-    // author-time=1710000000, tz=+0200 → UTC epoch = 1710000000 - 7200 = 1709992800
-    expect(entries[1].timestamp.getTime()).toBe((1710000000 - 2 * 3600) * 1000);
+    // author-time is always a UTC Unix timestamp; author-tz is for display only.
+    expect(entries[1].timestamp.getTime()).toBe(1710000000 * 1000);
   });
 
   it("parses line numbers", () => {

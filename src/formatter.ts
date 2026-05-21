@@ -18,7 +18,7 @@ const AGE_BANDS: AgeBand[] = [
   { maxSeconds: 60 * 60 * 24,       color: chalk.greenBright },    // < 1 day
   { maxSeconds: 60 * 60 * 24 * 7,   color: chalk.green },          // < 1 week
   { maxSeconds: 60 * 60 * 24 * 30,  color: chalk.yellow },         // < 1 month
-  { maxSeconds: 60 * 60 * 24 * 90,  color: chalk.keyword("orange") }, // < 3 months
+  { maxSeconds: 60 * 60 * 24 * 90,  color: chalk.hex("#FFA500") },    // < 3 months
   { maxSeconds: 60 * 60 * 24 * 365, color: chalk.red },             // < 1 year
   { maxSeconds: Infinity,            color: chalk.redBright },      // ≥ 1 year
 ];

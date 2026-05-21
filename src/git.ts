@@ -55,13 +55,10 @@ function run(args: string[], cwd: string): string {
   }
 }
 
-function fromUnixTimestamp(unixSeconds: number, tzOffset = "+0000"): Date {
-  const sign = tzOffset[0] === "-" ? -1 : 1;
-  const hours = parseInt(tzOffset.slice(1, 3), 10);
-  const minutes = parseInt(tzOffset.slice(3, 5), 10);
-  const offsetMs = sign * (hours * 60 + minutes) * 60 * 1000;
-  // Date.UTC already gives us a UTC epoch; subtract offset to convert local → UTC
-  return new Date(unixSeconds * 1000 - offsetMs);
+function fromUnixTimestamp(unixSeconds: number): Date {
+  // Git's author-time / committer-time fields are always UTC Unix timestamps.
+  // The tz offset (author-tz) is only for display and must not change the epoch.
+  return new Date(unixSeconds * 1000);
 }
 
 // ---------------------------------------------------------------------------
@@ -96,7 +93,6 @@ export function parsePorcelainBlame(output: string): BlameEntry[] {
       const info = meta[currentHash] ?? {};
       const ts = fromUnixTimestamp(
         parseInt(info["author-time"] ?? "0", 10),
-        info["author-tz"] ?? "+0000",
       );
       entries.push({
         commit: currentHash,
