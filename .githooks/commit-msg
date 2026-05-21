@@ -4,6 +4,12 @@
 # are made to PRs created by the Copilot coding agent.
 #
 
+# Validate that the commit message file argument exists and is readable
+if [ -z "$1" ] || [ ! -r "$1" ]; then
+    echo "❌ Error: Commit message file not found or not readable" >&2
+    exit 1
+fi
+
 # Get the first line (subject) of the commit message from the file passed as argument
 commit_msg=$(head -n 1 "$1")
 
