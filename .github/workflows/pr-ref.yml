@@ -34,7 +34,7 @@ jobs:
           MSG="${{ steps.commit_msg.outputs.message }}"
           # Trim whitespace and convert to lowercase
           TRIMMED=$(echo "$MSG" | sed -e 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '[:upper:]' '[:lower:]')
-          
+
           if [ "$TRIMMED" = "initial plan" ]; then
             echo "is_initial=true" >> $GITHUB_OUTPUT
           else
@@ -52,7 +52,7 @@ jobs:
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           SNAPSHOT_REF="refs/heads/snapshots/pr-${PR_NUMBER}"
-          
+
           echo "✅ First real commit detected. Creating snapshot branch: snapshots/pr-${PR_NUMBER}"
           if ! git push origin ${{ github.event.pull_request.head.sha }}:${SNAPSHOT_REF}; then
             echo "❌ Failed to create snapshot branch" >&2
