@@ -22,24 +22,24 @@ You can check out any pull request using one of these methods:
 
 **Method 1: Clone/fetch a snapshot branch (easiest)**
 
-Once a PR has a real commit (after the "Initial Plan" placeholder), a snapshot branch is automatically created at `snapshots/pr-<N>`:
+Once a PR has a real commit (after the "Initial Plan" placeholder), a snapshot branch is automatically created at `snapshots/pr-<PR-NUMBER>`:
 
 ```sh
-git fetch origin snapshots/pr-42
-git checkout snapshots/pr-42
+git fetch origin snapshots/pr-<PR-NUMBER>
+git checkout snapshots/pr-<PR-NUMBER>
 ```
 
 Or clone directly:
 
 ```sh
-git clone --branch snapshots/pr-42 <your-repo-url>
+git clone --branch snapshots/pr-<PR-NUMBER> <your-repo-url>
 ```
 
 **Method 2: Fetch PR directly using git refs (always works)**
 
 ```sh
-git fetch origin refs/pull/42/head:pr-42
-git checkout pr-42
+git fetch origin refs/pull/<PR-NUMBER>/head:pr-<PR-NUMBER>
+git checkout pr-<PR-NUMBER>
 ```
 
 ## Commands
