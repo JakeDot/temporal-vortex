@@ -32,7 +32,7 @@ git checkout snapshots/pr-42
 Or clone directly:
 
 ```sh
-git clone --branch snapshots/pr-42 https://github.com/YOUR_ORG/YOUR_REPO.git
+git clone --branch snapshots/pr-42 <your-repo-url>
 ```
 
 **Method 2: Fetch PR directly using git refs (always works)**
