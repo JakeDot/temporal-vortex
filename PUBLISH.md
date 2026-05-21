@@ -46,7 +46,7 @@ npm pack
 ```
 
 This creates a `.tgz` file and shows what will be published. Review the file list to ensure:
-- Only necessary files are included (check both `.npmignore` and the `files` list in `package.json`)
+- Only necessary files are included (primarily controlled by the `files` list in `package.json`; use `.npmignore` only if `files` is not set)
 - `dist/` directory is present
 - `package.json`, `README.md`, and `LICENSE` are included
 
@@ -114,7 +114,7 @@ The package name must be unique on npm. If taken, either:
 2. Choose a different name and update `package.json`
 
 ### Files Not Being Included
-Check both `.npmignore` and the `files` list in `package.json` to ensure important files are included. Update as needed and re-run `npm pack` to verify.
+If files are missing, check the `files` list in `package.json` first (`files` takes precedence over `.npmignore`). Update as needed and re-run `npm pack` to verify.
 
 ### Version Already Published
 Each version can only be published once. Update the version number and publish again:
