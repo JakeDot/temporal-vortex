@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prepare": "node scripts/setup-hooks.js",
+    "setup": "node scripts/post-clone-setup.js",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src tests --ext .ts",
