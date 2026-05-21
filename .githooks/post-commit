@@ -8,20 +8,20 @@
 
 # Check if tv command is available
 if ! command -v tv &> /dev/null; then
-    # tv not installed globally, try using ts-node if in development
+    # tv not installed globally, try using npx if in development
     if [ -f "package.json" ] && command -v npx &> /dev/null; then
-        TV_CMD="npx ts-node src/cli.ts"
+        # Use npx to run the built CLI from node_modules or local dist
+        npx --yes temporal-vortex diff HEAD 2>/dev/null || npx ts-node src/cli.ts diff HEAD 2>/dev/null
+        exit 0
     else
         # tv not available, silently exit (don't fail the commit)
         exit 0
     fi
-else
-    TV_CMD="tv"
 fi
 
 # Show diff for the commit that was just created
-# Using eval with proper quoting to handle spaces in paths
-eval "$TV_CMD" diff HEAD 2>/dev/null
+tv diff HEAD 2>/dev/null
 
 exit 0
+
 

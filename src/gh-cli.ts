@@ -45,12 +45,11 @@ export function isGhAvailable(): boolean {
 /**
  * Run a gh command and return the output.
  * Throws GhCliError if the command fails.
- * Uses shell: false to avoid command injection, with proper argument escaping.
+ * Uses proper shell command construction with argument escaping for security.
  */
 function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
   try {
-    // Use a simpler approach with sh -c and proper quoting
-    // The gh command and its arguments are trusted (not user input for repo names, which are already validated)
+    // Build command string with properly quoted arguments for shell execution
     const cmdStr = ["gh", ...args].map((arg) => {
       // Escape single quotes by replacing ' with '\'' (shell-safe)
       return `'${arg.replace(/'/g, "'\\''")}'`;
@@ -60,8 +59,9 @@ function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
       encoding: "utf8",
       stdio: ["pipe", "pipe", "pipe"],
       env: env ? { ...process.env, ...env } : undefined,
-      shell: "/bin/bash",
-    });
+      // Use shell: string path for Node.js compatibility, defaults to /bin/sh on Unix
+      ...(process.platform === "win32" ? {} : { shell: "/bin/sh" }),
+    } as any);
   } catch (err: unknown) {
     if (err instanceof Error) {
       const code = "status" in err ? (err.status as number) : 1;
@@ -82,7 +82,7 @@ function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
  */
 export function getAuthenticatedUser(): string | null {
   try {
-    const output = runGh(["auth", "status", "--show-token"]);
+    const output = runGh(["auth", "status"]);
     // Parse "Logged in to github.com as <username> ..."
     const match = output.match(/Logged in to \S+ as (\S+)/);
     return match ? match[1] : null;
