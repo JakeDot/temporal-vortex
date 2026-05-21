@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # Reject commits with the message "Initial Plan" to ensure meaningful commits
 # are made to PRs created by the Copilot coding agent.
