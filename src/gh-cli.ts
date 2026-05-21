@@ -75,7 +75,7 @@ export function getAuthenticatedUser(): string | null {
   try {
     const output = runGh(["auth", "status", "--show-token"]);
     // Parse "Logged in to github.com as <username> ..."
-    const match = output.match(/Logged in to[^a]+ as (\S+)/);
+    const match = output.match(/Logged in to \S+ as (\S+)/);
     return match ? match[1] : null;
   } catch {
     return null;
@@ -187,7 +187,7 @@ export function fetchIssueCommentsWithGh(
     const output = runGh(
       [
         "api",
-        "repos/" + owner + "/" + repo + "/issues/comments",
+        `repos/${owner}/${repo}/issues/comments`,
         "--paginate",
         "-H",
         "Accept: application/vnd.github+json",
@@ -225,7 +225,7 @@ export function fetchWorkflowRunsWithGh(
         "run",
         "list",
         "--repo",
-        owner + "/" + repo,
+        `${owner}/${repo}`,
         "--limit",
         String(Math.min(maxRuns, 100)),
         "--json",

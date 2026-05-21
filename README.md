@@ -22,11 +22,22 @@ git commit --amend -m "Your meaningful commit message"
 
 **Post-Commit Hook:** The `post-commit` hook automatically runs `tv diff HEAD` after each successful commit to display timestamp information about the files you just committed. This helps you understand what files were touched and when they were last modified.
 
-To disable the post-commit hook temporarily:
+To temporarily disable hooks for a single commit, use the `--no-verify` flag:
 
 ```sh
-git config core.hooksPath /dev/null  # Disable hooks
-git config core.hooksPath .githooks  # Re-enable hooks
+git commit --no-verify -m "Your commit message"
+```
+
+To permanently disable hooks for this repository, unset the hooks path:
+
+```sh
+git config --unset core.hooksPath
+```
+
+To re-enable hooks later:
+
+```sh
+git config core.hooksPath .githooks
 ```
 
 ### Checking Out PRs
