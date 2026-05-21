@@ -26,5 +26,3 @@ fi
 # Post-commit hooks should not fail the commit
 exit 0
 
-
-
