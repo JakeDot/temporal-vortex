@@ -63,10 +63,15 @@ function runGh(args: string[], env?: NodeJS.ProcessEnv): string {
     }
 
     if (result.status !== 0) {
-      throw new Error(result.stderr || `Command failed with exit code ${result.status}`);
+      throw new GhCliError(
+        result.stderr.trim() || `gh command failed with exit code ${result.status}`,
+        result.status ?? 1,
+        result.stderr
+      );
     }
 
-    return result.stdout;
+    // Return stdout or stderr (some gh commands write to stderr)
+    return result.stdout || result.stderr;
   } catch (err: unknown) {
     if (err instanceof GhCliError) {
       throw err;
@@ -206,7 +211,7 @@ export function fetchWorkflowRunsWithGh(
         "--repo",
         `${owner}/${repo}`,
         "--limit",
-        String(Math.min(maxRuns, 100)),
+        String(Math.min(maxRuns, 1000)),
         "--json",
         "databaseId,name,number,displayTitle,status,conclusion,createdAt,startedAt,updatedAt,event,headBranch,headSha,actor,url",
       ],
