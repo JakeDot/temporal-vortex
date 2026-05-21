@@ -89,6 +89,7 @@ program
 
 const github = program
   .command("github")
+  .alias("gh")
   .description("Extract timestamped events from the GitHub API");
 
 /** Shared GitHub options helper */

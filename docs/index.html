@@ -262,29 +262,60 @@
 
             <section>
                 <h2>Commands</h2>
+                <p><strong>Quick Link:</strong> <a href="commands-detailed.html" style="color: #667eea; text-decoration: none; border-bottom: 2px solid #667eea; padding-bottom: 2px;">View detailed command reference →</a></p>
 
                 <h3>Git Commands</h3>
 
-                <h4>tv log [file]</h4>
-                <p>Show commit history with color-coded age timestamps.</p>
+                <div style="margin: 30px 0;">
+                    <h4>tv log [file]</h4>
+                    <p>Show commit history with color-coded age timestamps.</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/log.svg" alt="tv log command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
 
-                <h4>tv summary [path]</h4>
-                <p>Show per-file timestamp statistics (newest change, first commit, commit count, authors).</p>
+                <div style="margin: 30px 0;">
+                    <h4>tv summary [path]</h4>
+                    <p>Show per-file timestamp statistics (newest change, first commit, commit count, authors).</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/summary.svg" alt="tv summary command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
 
-                <h4>tv annotate &lt;file&gt;</h4>
-                <p>Per-line blame with age-colored timestamps, similar to <code>git blame</code>.</p>
+                <div style="margin: 30px 0;">
+                    <h4>tv annotate &lt;file&gt;</h4>
+                    <p>Per-line blame with age-colored timestamps, similar to <code>git blame</code>.</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/annotate.svg" alt="tv annotate command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
 
-                <h4>tv --help</h4>
-                <p>Display help information for all commands.</p>
+                <div style="margin: 30px 0;">
+                    <h4>tv --help</h4>
+                    <p>Display help information for all commands.</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/help.svg" alt="tv --help command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
 
                 <h3>GitHub Commands</h3>
                 <p>Requires a <code>GITHUB_TOKEN</code> env var or the <code>--token</code> flag.</p>
 
-                <pre><code># All timestamped events (comments, reviews, workflow runs)
-tv github events &lt;owner/repo&gt;
+                <div style="margin: 30px 0;">
+                    <h4>tv gh events &lt;owner/repo&gt;</h4>
+                    <p>Show all timestamped events from the GitHub API including comments, reviews, and workflow runs. Supports filtering by event kind (issue_comment, pr_review_comment, pr_review, commit_comment, workflow_run).</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/github-events.svg" alt="tv gh events command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
 
-# GitHub Actions workflow runs (agent start/end timestamps)
-tv github workflows &lt;owner/repo&gt;</code></pre>
+                <div style="margin: 30px 0;">
+                    <h4>tv gh workflows &lt;owner/repo&gt;</h4>
+                    <p>Show GitHub Actions workflow runs with agent start and end timestamps, including workflow name, status, and duration.</p>
+                    <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; overflow-x: auto; margin: 15px 0; border: 1px solid #ddd;">
+                        <img src="screenshots/github-workflows.svg" alt="tv gh workflows command screenshot" style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
             </section>
 
             <section id="install">
