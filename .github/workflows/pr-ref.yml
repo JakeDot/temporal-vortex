@@ -41,8 +41,14 @@ jobs:
             echo "is_initial=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Skip for fork PR
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "ℹ️ PR is from a fork. Skipping snapshot branch creation."
+          echo "   The GITHUB_TOKEN does not have write access to the base repository for fork PRs."
+
       - name: Create/Update snapshot branch
-        if: steps.check_initial.outputs.is_initial == 'false'
+        if: steps.check_initial.outputs.is_initial == 'false' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           SNAPSHOT_REF="refs/heads/snapshots/pr-${PR_NUMBER}"
@@ -55,7 +61,7 @@ jobs:
           fi
 
       - name: Skip for placeholder commit
-        if: steps.check_initial.outputs.is_initial == 'true'
+        if: steps.check_initial.outputs.is_initial == 'true' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           echo "⊘ Skipping snapshot creation for 'Initial Plan' placeholder commit"
           echo "   Snapshot branch will be created when a real commit is pushed to this PR"
