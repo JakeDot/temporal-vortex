@@ -6,10 +6,21 @@
   "bin": {
     "tv": "dist/cli.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeDot/temporal-vortex.git"
+  },
+  "author": "JakeDot",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "prepare": "node scripts/setup-hooks.js",
     "setup": "node scripts/post-clone-setup.js",
     "build": "tsc",
+    "prepack": "npm run build",
     "test": "jest",
     "lint": "eslint src tests --ext .ts",
     "start": "ts-node src/cli.ts",

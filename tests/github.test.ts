@@ -9,8 +9,6 @@ import {
   fetchPRReviewComments,
   fetchCommitComments,
   fetchWorkflowRuns,
-  type GitHubEvent,
-  type GitHubEventKind,
 } from "../src/github";
 
 // ---------------------------------------------------------------------------
