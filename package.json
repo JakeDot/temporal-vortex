@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JakeDot/temporal-vortex.git"
+    "url": "git+https://github.com/JakeDot/temporal-vortex.git"
   },
   "author": "JakeDot",
   "files": [
@@ -20,6 +20,7 @@
     "prepare": "node scripts/setup-hooks.js",
     "setup": "node scripts/post-clone-setup.js",
     "build": "tsc",
+    "prepack": "npm run build",
     "test": "jest",
     "lint": "eslint src tests --ext .ts",
     "start": "ts-node src/cli.ts",

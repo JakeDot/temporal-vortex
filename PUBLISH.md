@@ -1,6 +1,6 @@
 # Publishing to npm
 
-This package is configured to be published to npm registry. Follow these steps to publish a new version:
+This package is configured to be published to the npm registry. Follow these steps to publish a new version:
 
 ## Prerequisites
 
@@ -46,7 +46,7 @@ npm pack
 ```
 
 This creates a `.tgz` file and shows what will be published. Review the file list to ensure:
-- Only necessary files are included (check `.npmignore`)
+- Only necessary files are included (check both `.npmignore` and the `files` list in `package.json`)
 - `dist/` directory is present
 - `package.json`, `README.md`, and `LICENSE` are included
 
@@ -114,7 +114,7 @@ The package name must be unique on npm. If taken, either:
 2. Choose a different name and update `package.json`
 
 ### Files Not Being Included
-Check `.npmignore` to ensure it doesn't exclude important files. Update as needed and re-run `npm pack` to verify.
+Check both `.npmignore` and the `files` list in `package.json` to ensure important files are included. Update as needed and re-run `npm pack` to verify.
 
 ### Version Already Published
 Each version can only be published once. Update the version number and publish again:
