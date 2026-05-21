@@ -1,6 +1,6 @@
 # temporal-vortex
 
-> A GitLens-inspired CLI for surfacing timestamped change events from a git repository and the GitHub API.
+> A CLI for surfacing timestamped change events from a git repository and the GitHub API.
 
 ## Quick Start
 
